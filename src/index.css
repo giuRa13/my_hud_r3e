@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+/*@theme {
+    --color-accent: #e52249;
+}*/
+
+:root {
+    color-scheme: dark;
+
+    --black: #131414;
+    --text: #C7C3C5;
+    --gray: #2D2D30;; /*#2D2D30;*/ /*#262626;*/ 
+    --accent: #e52249;
+    --graphite:#464646; /*#2E2F2F*/ /*gray text gray muted*/
+
+    --fucsia_default: #f40bf0;
+    --green_default: #05e701;
+    --green2_default: #5efb0a;
+    --yellow_default: #eca40c;
+    --red_default: #e52249;
+    --blue_default_bright:  #00d0ff ;
+    --blue_default_soft: #00AAFF;
+    --blue_default_dark: #4476ae;
+    --pink_default_soft: #ed6689;
+    --frame_bg: #2b2c39;
+
+    --gear_redline_color: #FF1E44;  /*0.91 threshold*/ 
+    --gear_optimal_color: #00AAFF; /*0.95 threshold*/
+    --gear_overrev_color: #FF00FF; /*0.98 threshold*/
+}
+
+html, body, #root { margin: 0; background: transparent; }
+
+input[type=color] {
+    padding: 0;
+    border-radius: 4px;
+    overflow: hidden; /* forces swatch to follow border radius */
+    appearance: none;
+    -webkit-appearance: none;
+}
+/* Remove internal padding around the color box */
+input[type=color]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+/* Style the actual color box */
+input[type=color]::-webkit-color-swatch {
+    border: none;
+    border-radius: 0px; /* same rounding as outer input */
+}
+/* Firefox */
+input[type=color]::-moz-color-swatch {
+    border: none;
+    border-radius: 4px;
+    padding: 0;
+}
+
+
+ 
+
