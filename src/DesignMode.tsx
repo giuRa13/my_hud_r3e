@@ -13,7 +13,10 @@ const checker: React.CSSProperties = {
 
 export default function DesignMode() {
     const [base, setBase] = useState<IShared>(mock_state);
-    const [mock, setMock] = useState<Mock>({ kmh: 180, rpm_pct: 70, gear: 3 });
+    const [mock, setMock] = useState<Mock>({ 
+      kmh: 180, rpm_pct: 70, gear: 3,
+      throttle: 80, brake: 20, clutch: 0, ffb: 40, 
+    });
 
     // Ctrl+V a game state dumped with Shift+D in game
     useEffect(() => {
@@ -33,6 +36,10 @@ export default function DesignMode() {
         CarSpeed: mock.kmh / 3.6,
         EngineRps: (mock.rpm_pct / 100) * base.MaxEngineRps,
         Gear: mock.gear,
+        Throttle: mock.throttle / 100,
+        Brake: mock.brake / 100,
+        Clutch: mock.clutch / 100,
+        Player: { ...(base.Player ?? {}), SteeringForcePercentage: mock.ffb / 100 },
     } as IShared;
 
     return (

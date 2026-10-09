@@ -1,14 +1,19 @@
-import type { ComponentType } from 'react';
-import type IShared from '../data/r3eTypes';
-import Gear from './Gear';
-
-export type WidgetDef = {
-    label: string;
-    component: ComponentType<{ state: IShared }>;
-    pos: { x: number; y: number };
-    padded?: boolean;
-};
+import GearWidget, { gear_settings } from './GearWidget';
+import PedalsWidget, {pedals_settings} from './PedalsWidget';
+import type { WidgetDef } from './types';
 
 export const widgets : Record<string, WidgetDef> = {
-    gear: { label: 'Gear', component: Gear, pos: { x: 40, y: 40 }, padded: false },
+    gear: {
+        label: "Gear",
+        component: GearWidget,
+        pos: { x: 40, y: 40 },
+        padded: false,
+        settings: gear_settings,
+    },
+    pedals: {
+        label: "Pedals",
+        component: PedalsWidget,
+        pos: {x: 220, y: 40},
+        settings: pedals_settings,
+    },
 };

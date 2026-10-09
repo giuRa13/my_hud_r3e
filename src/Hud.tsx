@@ -20,23 +20,25 @@ function is_typing(t: EventTarget | null) {
 
 export default function Hud() {
     const state = useLiveState();
-    const [editing, setEditing] = useState(false);
+    const [panel_open, setPanelOpen] = useState(false);
 
     // Shift+E toggles edit mode (panel + dragging/scaling)
     useEffect(() => {
         const onKey = (e: KeyboardEvent) => {
             if (!e.shiftKey || e.key.toLowerCase() !== "e" || is_typing(e.target)) return;
-            setEditing((v) => !v);
+            setPanelOpen((v) => !v);
         };
         window.addEventListener("keyup", onKey);
         return () => window.removeEventListener("keyup", onKey);
     }, []);
 
-
+    //wraps everything in a pointer-events-none div 
+    // (so the HUD doesn’t block the game when edit mode is off), and that setting is inherited by every child
+    // Widgets work because WidgetFrame sets pointer-events-auto on itself when editable (and Control Panel too)
     return (
         <div className='fixed inset-0 pointer-events-none'>
-            {state && <HudLayer state={state} editable={editing} />}
-            {editing && <ControlPanel onClose={() => setEditing(false)} />}
+            {state && <HudLayer state={state} />}
+            {panel_open && <ControlPanel onClose={() => setPanelOpen(false)}  />}
         </div>
     );
 };

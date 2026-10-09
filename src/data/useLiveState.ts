@@ -14,8 +14,8 @@ export function useLiveState() {
   const [state, setState] = useState<IShared | null>(null);
 
   useEffect(() => {
-    const override = new URLSearchParams(location.search).get('ws');
-    const address = override || 'localhost:8070';
+    const override = new URLSearchParams(location.search).get("ws");
+    const address = override || "localhost:8070";
     const ws = new ReconnectingWebSocket(`ws://${address}/r3e`);
 
     ws.onmessage = (e) => {
