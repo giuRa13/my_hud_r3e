@@ -14,8 +14,10 @@ export default function HudLayer({ state, editable = true } : { state: IShared; 
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
             {Object.entries(widgets).map(([id, w]) => {
                 if (!layout[id].visible) return null;
+                const config = layout[id].config;
+                const shape = typeof w.shape === "function" ? w.shape(config) : w.shape;
                 return(
-                    <WidgetFrame key={id} id={id} editable={can_edit} padded={w.padded !== false}>
+                    <WidgetFrame key={id} id={id} editable={can_edit} padded={w.padded !== false} shape={shape}>
                         <w.component state={state} config={layout[id].config}/>
                     </WidgetFrame>
                 );

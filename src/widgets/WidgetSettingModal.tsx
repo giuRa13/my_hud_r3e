@@ -7,6 +7,63 @@ import type { SettingField } from './types';
 
 const btn = "px-2 py-1 rounded bg-white/10 hover:bg-white/20 text-xs";
 
+// Downscale so the saved layout stays small (image is stored inside the layout)
+function resize_image(file: File, max: number): Promise<string> {
+    return new Promise((resolve, reject) => {
+        const url = URL.createObjectURL(file);
+        const img = new Image();
+            img.onload = () => {
+            const w = img.naturalWidth || max;
+            const h = img.naturalHeight || max;
+            const k = Math.min(1, max / Math.max(w, h));
+            const c = document.createElement("canvas");
+            c.width = Math.max(1, Math.round(w * k));
+            c.height = Math.max(1, Math.round(h * k));
+            c.getContext("2d")!.drawImage(img, 0, 0, c.width, c.height);
+            URL.revokeObjectURL(url);
+            resolve(c.toDataURL("image/png")); // PNG keeps transparency
+        };
+        img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("bad image")); };
+        img.src = url;
+    });
+}
+
+function ImageField({ label, value, onChange }: {
+  label: string; value: string; onChange: (v: string) => void;
+}) {
+    const input = useRef<HTMLInputElement>(null);
+    const [error, setError] = useState("");
+
+    const pick = async (file?: File) => {
+        if (!file) return;
+        try {
+            onChange(await resize_image(file, 512));
+            setError('');
+        } 
+        catch {
+            setError('Could not read that image');
+        }
+    };
+
+    return (
+        <div className="space-y-2 text-xs text-zinc-400">
+            <div className="flex items-center justify-between">
+                <span>{label}</span>
+                <span className="flex gap-2">
+                <button onClick={() => input.current?.click()} className={btn}>Choose…</button>
+                {value && <button onClick={() => onChange('')} className={btn}>Use default</button>}
+                </span>
+            </div>
+            <p className="text-zinc-500">{value ? "Custom image" : "Default image"}</p>
+            {error && <p className="text-red-400">{error}</p>}
+            <input
+                ref={input} type="file" accept="image/*" className="hidden"
+                onChange={(e) => { pick(e.target.files?.[0]); e.target.value = ''; }}
+            />
+        </div>
+    );
+};
+
 function Field({ field, value, onChange }: {
     field: SettingField; value: any; onChange: (v: any) => void;
 }) {
@@ -61,6 +118,8 @@ function Field({ field, value, onChange }: {
             </select>
             </label>
         );
+        case 'image':
+        return <ImageField label={field.label} value={value} onChange={onChange} />;
     }
 };
 

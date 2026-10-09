@@ -11,10 +11,11 @@ type Props = {
     id: string; 
     editable?: boolean; 
     padded?: boolean;
+    shape?: "rect" | "circle";
     children: ReactNode 
 };
 
-export default function WidgetFrame({ id, editable = true, padded = true, children }: Props) {
+export default function WidgetFrame({ id, editable = true, padded = true, shape = "rect", children }: Props) {
 
     const { layout, settings, set_pos, set_scale } = useLayout();
     const l = layout[id];
@@ -67,7 +68,7 @@ export default function WidgetFrame({ id, editable = true, padded = true, childr
             onPointerDown={onPointerDown}
             onPointerMove={onPointerMove}
             onPointerUp={onPointerUp}
-            className={`absolute ${padded ? "p-3" : "overflow-hidden"} ${
+            className={`absolute ${padded ? "p-3" : "overflow-hidden"} ${shape === 'circle' ? "rounded-full" : ""} ${
                 editable 
                     ? "pointer-events-auto cursor-move select-none touch-none hover:ring-1 hover:ring-(--accent)"
                     : ""

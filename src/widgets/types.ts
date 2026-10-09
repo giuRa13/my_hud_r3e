@@ -12,13 +12,17 @@ export type SettingField = FieldBase &
     | { type: "boolean"; default: boolean }
     | { type: "color"; default: string }
     | { type: "select"; default: string; options: { value: string; label: string }[] }
+    | { type: "image"; default: string } // "" = use the widget's built-in default
   );
+
+export type Shape = "rect" | "circle";
 
 export type WidgetDef = {
     label: string;
     component: ComponentType<WidgetProps>;
     pos: { x: number; y: number };
     padded?: boolean;
+    shape?: Shape | ((config: Config) => Shape);
     settings?: SettingField[]; // Fields shown in the widget's settings modal
 };
 

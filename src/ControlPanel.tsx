@@ -7,6 +7,7 @@ import WidgetSettingsModal from './widgets/WidgetSettingModal';
 export type Mock = { 
     kmh: number; rpm_pct: number; gear: number;
     throttle: number; brake: number; clutch: number; ffb: number; 
+    steer: number; delta: number;
 };
 
 type Props = {
@@ -107,6 +108,12 @@ export default function ControlPanel({ title = "HUD editor", mock, onMockChange,
                         onChange={(clutch) => onMockChange({ ...mock, clutch })} />
                         <Slider label="FFB %" value={mock.ffb} min={0} max={100}
                         onChange={(ffb) => onMockChange({ ...mock, ffb })} />
+
+                        <Slider label="Steering %" value={mock.steer} min={-100} max={100}
+                        onChange={(steer) => onMockChange({ ...mock, steer })} />
+
+                        <Slider label="Delta (0.01 s)" value={mock.delta} min={-300} max={300}
+                        onChange={(delta) => onMockChange({ ...mock, delta })} />
                     </section>
                 )}
 

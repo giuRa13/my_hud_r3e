@@ -16,6 +16,7 @@ export default function DesignMode() {
     const [mock, setMock] = useState<Mock>({ 
       kmh: 180, rpm_pct: 70, gear: 3,
       throttle: 80, brake: 20, clutch: 0, ffb: 40, 
+      steer: 0, delta: -35,
     });
 
     // Ctrl+V a game state dumped with Shift+D in game
@@ -40,6 +41,10 @@ export default function DesignMode() {
         Brake: mock.brake / 100,
         Clutch: mock.clutch / 100,
         Player: { ...(base.Player ?? {}), SteeringForcePercentage: mock.ffb / 100 },
+        SteerInputRaw: mock.steer / 100,
+        SteerWheelRangeDegrees: 900,
+        SteerLockDegrees: 270,
+        TimeDeltaBestSelf: mock.delta / 100,
     } as IShared;
 
     return (
