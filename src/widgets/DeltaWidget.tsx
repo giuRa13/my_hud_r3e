@@ -21,7 +21,6 @@ export default function DeltaWidget({ state, config }: WidgetProps) {
 
     return (
         <div className="flex flex-col items-center gap-1" style={{ width: config.width }}>
-            {/* Bar: centre is zero. Left = slower (red), right = faster (green) */}
             <div
                 className="relative w-full overflow-hidden bg-white/10"
                 style={{ height: config.bar_height }}

@@ -8,6 +8,7 @@ export type Mock = {
     kmh: number; rpm_pct: number; gear: number;
     throttle: number; brake: number; clutch: number; ffb: number; 
     steer: number; delta: number;
+    sectors_done: number; s1_delta: number; s2_delta: number; s3_delta: number;
 };
 
 type Props = {
@@ -114,6 +115,15 @@ export default function ControlPanel({ title = "HUD editor", mock, onMockChange,
 
                         <Slider label="Delta (0.01 s)" value={mock.delta} min={-300} max={300}
                         onChange={(delta) => onMockChange({ ...mock, delta })} />
+
+                        <Slider label="Sectors done" value={mock.sectors_done} min={0} max={3}
+                        onChange={(sectors_done) => onMockChange({ ...mock, sectors_done })} />
+                        <Slider label="S1 delta (0.01 s)" value={mock.s1_delta} min={-50} max={150}
+                        onChange={(s1_delta) => onMockChange({ ...mock, s1_delta })} />
+                        <Slider label="S2 delta (0.01 s)" value={mock.s2_delta} min={-50} max={150}
+                        onChange={(s2_delta) => onMockChange({ ...mock, s2_delta })} />
+                        <Slider label="S3 delta (0.01 s)" value={mock.s3_delta} min={-50} max={150}
+                        onChange={(s3_delta) => onMockChange({ ...mock, s3_delta })} />
                     </section>
                 )}
 

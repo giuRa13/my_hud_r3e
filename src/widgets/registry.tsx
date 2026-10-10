@@ -2,6 +2,7 @@ import GearWidget, { gear_settings } from './GearWidget';
 import PedalsWidget, {pedals_settings} from './PedalsWidget';
 import WheelWidget, {wheel_settings} from './WheelWidget';
 import DeltaWidget, {delta_settings} from './DeltaWidget';
+import SectorsWidget, { sectors_settings } from './SectorsWidget';
 import type { WidgetDef } from './types';
 
 export const widgets : Record<string, WidgetDef> = {
@@ -26,10 +27,16 @@ export const widgets : Record<string, WidgetDef> = {
         shape: (config) => (config.circular ? "circle" : "rect"),
         settings: wheel_settings,
     },
-        delta: {
+    delta: {
         label: "Delta",
         component: DeltaWidget,
         pos: { x: 40, y: 260 },
         settings: delta_settings,
+    },
+    sectors: {
+        label: 'Sectors',
+        component: SectorsWidget,
+        pos: { x: 40, y: 340 },
+        settings: sectors_settings,
     },
 };

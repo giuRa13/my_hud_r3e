@@ -1,8 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&family=Questrial&family=Roboto:ital,wght@0,100..900;1,100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Play:wght@400;700&family=Questrial&family=Roboto:ital,wght@0,100..900;1,100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Orbitron:wght@400..900&family=Play:wght@400;700&family=Questrial&family=Roboto:ital,wght@0,100..900;1,100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import "tailwindcss";
 
-/*@theme {
-    --color-accent: #e52249;
-}*/
+@theme {
+  --font-display: "Roboto", sans-serif;
+  --font-quest: "Questrial", sans-serif;
+  --font-play: "Play", sans-serif;
+  --font-orbit: "Orbitron", sans-serif;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-orbit);
+  }
+}
 
 :root {
     color-scheme: dark;

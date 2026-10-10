@@ -11,12 +11,29 @@ const checker: React.CSSProperties = {
     backgroundSize: '16px 16px',
 };
 
+const REF = [30, 40, 25]; // best individual sector times (s)
+
+function mock_sectors(done: number, d1: number, d2: number, d3: number) {
+    const t = [REF[0] + d1 / 100, REF[1] + d2 / 100, REF[2] + d3 / 100];
+    const upto = (n: number) => ({
+      Sector1: n >= 1 ? t[0] : -1,
+      Sector2: n >= 2 ? t[0] + t[1] : -1,
+      Sector3: n >= 3 ? t[0] + t[1] + t[2] : -1,
+    });
+    return {
+      SectorTimesCurrentSelf: upto(done),
+      SectorTimesPreviousSelf: upto(0),
+      BestIndividualSectorTimeSelf: { Sector1: REF[0], Sector2: REF[1], Sector3: REF[2] },
+    };
+}
+
 export default function DesignMode() {
     const [base, setBase] = useState<IShared>(mock_state);
     const [mock, setMock] = useState<Mock>({ 
       kmh: 180, rpm_pct: 70, gear: 3,
       throttle: 80, brake: 20, clutch: 0, ffb: 40, 
       steer: 0, delta: -35,
+      sectors_done: 2, s1_delta: -10, s2_delta: 5, s3_delta: 60,
     });
 
     // Ctrl+V a game state dumped with Shift+D in game
@@ -45,6 +62,7 @@ export default function DesignMode() {
         SteerWheelRangeDegrees: 900,
         SteerLockDegrees: 270,
         TimeDeltaBestSelf: mock.delta / 100,
+        ...mock_sectors(mock.sectors_done, mock.s1_delta, mock.s2_delta, mock.s3_delta),
     } as IShared;
 
     return (

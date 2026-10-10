@@ -30,12 +30,12 @@ export default function PedalsWidget({ state, config }: WidgetProps) {
     ].filter((b) => config[`show_${b.key}`]);
 
     return (
-        <div className={`flex gap-2 ${vertical ? "flex-row" : "flex-col"}`}>
+        <div className={`flex gap-1 ${vertical ? "flex-row" : "flex-col"}`}>
             {bars.map((b) => {
                 const color = config[`${b.key}_color`];
                 return (
                     <div key={b.key}
-                    className={`relative overflow-hidden border-2 rounded-xs bg-black/30
+                    className={`relative overflow-hidden border-2 rounded-sm bg-black/30
                     ${vertical ? "h-[100px] w-[18px]" : 'h-[18px] w-[100px]'}`}
                     style={{ borderColor: "#464646"  }}
                     >
