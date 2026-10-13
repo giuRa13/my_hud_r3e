@@ -5,7 +5,7 @@ import { widgets } from './registry';
 import { hex_to_rgba } from '../utils'; 
 import type { SettingField } from './types'; 
 
-const btn = "px-2 py-1 rounded bg-white/10 hover:bg-white/20 text-xs";
+const btn = "px-2 py-1 rounded-xs bg-white/10 hover:bg-(--accentB) text-xs"; // hover:bg-white/20
 
 // Downscale so the saved layout stays small (image is stored inside the layout)
 function resize_image(file: File, max: number): Promise<string> {
@@ -110,7 +110,7 @@ function Field({ field, value, onChange }: {
             <span>{field.label}</span>
             <select
                 value={value} onChange={(e) => onChange(e.target.value)}
-                className="bg-zinc-800 px-2 py-1 text-zinc-200 outline-(--accent)"
+                className="bg-zinc-800 px-2 py-1 text-zinc-200"
             >
                 {field.options.map((o) => (
                 <option key={o.value} value={o.value}>{o.label}</option>

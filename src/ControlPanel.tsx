@@ -40,7 +40,7 @@ function Slider({ label, value, min, max, suffix = "", onChange }: {
     );
 };
 
-const btn = "px-2 py-1 rounded bg-white/10 hover:bg-white/20 text-xs";
+const btn = "px-2 py-1 rounded-xs bg-white/10 hover:bg-(--accentB) text-xs"; // hover:bg-white/20
 
 export default function ControlPanel({ title = "HUD editor", mock, onMockChange, onClose }: Props) {
 
@@ -75,7 +75,7 @@ export default function ControlPanel({ title = "HUD editor", mock, onMockChange,
 
             <div className="flex-1 overflow-y-auto p-4 space-y-5">
                 <section className="space-y-3">
-                    <h3 className="text-[11px] uppercase tracking-wider text-zinc-500 border-b border-(--accent)">Appearance</h3>
+                    <h3 className="text-[11px] uppercase tracking-wider text-(--accent) border-b border-(--accent)">Appearance</h3> {/*text-zinc-500*/}
                     <div className="flex items-center justify-between text-xs text-zinc-400">
                         <span>Background colour</span>
                         <input
@@ -93,7 +93,7 @@ export default function ControlPanel({ title = "HUD editor", mock, onMockChange,
 
                 {mock && onMockChange && (
                     <section className="space-y-3">
-                        <h3 className="text-[11px] uppercase tracking-wider text-zinc-500 border-b border-(--accent)">Mock data</h3>
+                        <h3 className="text-[11px] uppercase tracking-wider text-(--accent) border-b border-(--accent)">Mock data</h3>
                         <Slider label="Speed km/h" value={mock.kmh} min={0} max={350}
                         onChange={(kmh) => onMockChange({ ...mock, kmh })} />
                         <Slider label="RPM %" value={mock.rpm_pct} min={0} max={100}
@@ -128,7 +128,7 @@ export default function ControlPanel({ title = "HUD editor", mock, onMockChange,
                 )}
 
                 <section className="space-y-2">
-                    <h3 className="text-[11px] uppercase tracking-wider text-zinc-500 border-b border-(--accent)">Widgets</h3>
+                    <h3 className="text-[11px] uppercase tracking-wider text-(--accent) border-b border-(--accent)">Widgets</h3>
                     {Object.entries(widgets).map(([id, w]) => (
                         <div key={id} className="flex items-center gap-2 text-xs">
                         <input
@@ -161,7 +161,7 @@ export default function ControlPanel({ title = "HUD editor", mock, onMockChange,
                     </section>
 
                 <section className="space-y-2">
-                    <h3 className="text-[11px] uppercase tracking-wider text-zinc-500 border-b border-(--accent)">Layout</h3>
+                    <h3 className="text-[11px] uppercase tracking-wider text-(--accent) border-b border-(--accent)">Layout</h3>
                     <div className="flex gap-2">
                         <button
                         className={btn}

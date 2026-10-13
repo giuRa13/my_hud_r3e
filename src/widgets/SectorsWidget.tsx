@@ -1,5 +1,6 @@
 import type { WidgetProps, SettingField, Config } from './types';
 import { useRef } from 'react';
+import { useLapState } from '../store/laps';
 import type { ISectors } from '../data/r3eTypes';
 
 export const sectors_settings: SettingField[] = [
@@ -27,8 +28,12 @@ function per_sector(s: ISectors | undefined, cumulative: boolean): Triple {
     if (!s) return NONE;
     const { Sector1: a, Sector2: b, Sector3: c } = s;
     if (!cumulative) return [a, b, c];
-    return [a, valid(a) && valid(b) ? b - a : -1, valid(b) && valid(c) ? c - b : -1];
-};
+    return [
+        a, 
+        valid(a) && valid(b) ? b - a : -1, 
+        valid(b) && valid(c) ? c - b : -1
+    ];
+}
 
 // undefined = empty (border only)
 function sector_color(time: number, best: number, c: Config): string | undefined {
@@ -39,32 +44,19 @@ function sector_color(time: number, best: number, c: Config): string | undefined
     if (delta < c.good_limit) return c.good_color;
     if (delta < c.slow_limit) return c.ok_color;
     return c.slow_color;
-};
+}
 
 export default function SectorsWidget({ state, config }: WidgetProps) {
     const cum = !!config.cumulative;
     const cur = per_sector(state.SectorTimesCurrentSelf, cum);
     const prev = per_sector(state.SectorTimesPreviousSelf, cum);
 
-    // Remember whether the lap that just ended was valid
-    const track = useRef({ lap: -1, valid: true, prev_valid: true });
-    const t = track.current;
-    const lap = state.CompletedLaps;
-    const lap_ok = state.CurrentLapValid !== 0; // 0 = invalid; -1 (N/A) counts as valid
+    // From the lap store: was the last lap valid, and is S1 of the new lap done?
+    const { prev_valid, s1_done } = useLapState();
 
-    if (lap !== t.lap) {
-        // new lap started: the lap that just ended is valid if it never went invalid
-        t.prev_valid = lap === t.lap + 1 ? t.valid : true;
-        t.valid = lap_ok;
-        t.lap = lap;
-    } 
-    else if (!lap_ok) {
-        t.valid = false; // once a lap is invalid it stays invalid
-    }
-
-    // New lap: show last lap only if it was valid; otherwise empty until S1 is done
-    const show_prev = config.show_previous && t.prev_valid;
-    const times = valid(cur[0]) ? cur : show_prev ? prev : NONE;
+    // New lap: show the previous lap only if it was valid, otherwise nothing, until S1 is done
+    const show_prev = config.show_previous && prev_valid;
+    const times = s1_done ? cur : show_prev ? prev : NONE;
 
     const b = state.BestIndividualSectorTimeSelf;
     const best: Triple = b ? [b.Sector1, b.Sector2, b.Sector3] : NONE;
@@ -85,16 +77,16 @@ export default function SectorsWidget({ state, config }: WidgetProps) {
                             width: w,
                             height: h,
                             backgroundColor: bg,
-                            borderColor: 'rgba(255,255,255,0.4)',
+                            borderColor: bg ? bg : 'rgba(255,255,255,0.4)',
                             color: bg ? '#fff' : 'rgba(255,255,255,0.6)',
                             /*textShadow: bg ? '0 1px 2px rgba(0,0,0,0.7)' : undefined,*/
                         }} 
                     >
-                        {!has_time &&  <span style={{ fontSize: h * 0.5 }}>S{i + 1}</span>}
+                        {!has_time &&  <span style={{ fontSize: h * 0.6 }}>S{i + 1}</span>}
                         {has_time && (
                             <div className='flex justify-between gap-4'>
-                                <span style={{ fontSize: h * 0.5 }}>S{i + 1}</span>
-                                <span className="font-semibold tabular-nums" style={{ fontSize: h * 0.5 }}>
+                                <span style={{ fontSize: h * 0.6 }}>S{i + 1} :</span>
+                                <span className="font-semibold tabular-nums" style={{ fontSize: h * 0.6 }}>
                                     {times[i].toFixed(3)}
                                 </span>
                             </div>

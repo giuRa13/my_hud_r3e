@@ -24,6 +24,7 @@
     --text: #C7C3C5;
     --gray: #2D2D30; /*#2D2D30;*/ /*#262626;*/  
     --accent: #e52249;
+    --accentB: #e5224970;
     --graphite:#464646; /*#2E2F2F*/ /*gray text gray muted*/
 
     --fucsia_default: #f40bf0;
@@ -44,6 +45,29 @@
 
 html, body, #root { margin: 0; background: transparent; }
 
+/* //////////////////////////////////////////////////////////////////////// */
+select,
+::picker(select) {
+  appearance: base-select;
+  border: 1px solid var(--graphite);
+  border-radius: 2px;
+}
+
+select, option {
+    background: var(--color-zinc-800);
+    color: var(--color-zinc-400);
+}
+
+option:hover {
+    background: var(--accentB);
+}
+
+option:checked {
+   background: var(--accent);
+   font-weight: bold;
+}
+
+/* //////////////////////////////////////////////////////////////////////// */
 input[type=color] {
     padding: 0;
     border-radius: 4px;
@@ -67,6 +91,7 @@ input[type=color]::-moz-color-swatch {
     padding: 0;
 }
 
+/* //////////////////////////////////////////////////////////////////////// */
 /* Dark range sliders */
 input[type=range] {
     -webkit-appearance: none;
@@ -112,5 +137,37 @@ input[type=range]::-moz-range-thumb {
     border: none;
     border-radius: 50%;
     background: var(--accent);
+}
+
+/* //////////////////////////////////////////////////////////////////////// */
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  font-size: 2rem;
+  padding: 0.1rem;
+  border: 0.15rem solid var(--graphite);
+  border-radius: 0.2rem;
+  background-color: var(--black);
+}
+input[type="checkbox"]::before {
+  content: "";
+  width: 1rem;
+  height: 1rem;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  transform: scale(0);
+}
+input[type="checkbox"]:checked::before {
+  transform: scale(1);
+  background-color: var(--accent);
+}
+input[type="checkbox"]:checked{
+  background-color: var(--black);
+}
+input[type="checkbox"]:hover {
+  background-color: var(--accentB);
+  /*border: 0.15rem solid var(--black);*/
 }
 

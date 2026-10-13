@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import HudLayer from './HudLayer';
 import ControlPanel, { type Mock } from './ControlPanel';
 import { mock_state } from './data/mock';
+import { seed_demo_laps } from './store/laps';
 import type IShared from './data/r3eTypes';
 
 // the whole page stands in for the game screen
@@ -48,6 +49,8 @@ export default function DesignMode() {
         document.addEventListener('paste', onPaste);
         return () => document.removeEventListener('paste', onPaste);
     }, []);
+
+    useEffect(() => { seed_demo_laps(); }, []);
 
     const state = {
         ...base,

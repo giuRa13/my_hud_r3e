@@ -91,18 +91,21 @@ const LayoutContext = createContext<Ctx | null>(null);
 // (everything inside LayoutProvider can access the context)
 export function LayoutProvider({ children }: { children: ReactNode }) {
 
+    // React supports giving useState a function as a lazy initializer.
     const [state, setState] = useState<State>(load);
 
     useEffect(() => {
         try { localStorage.setItem(KEY, JSON.stringify(state)); } catch {}
     }, [state]);
 
-    // Ctrl+V a layout copied with "Copy layout"
+    // this effect installs a global paste listener
+    // When the user presses: CTRL + V , the browser creates a ClipboardEvent
     useEffect(() => {
         const onPaste = (e: ClipboardEvent) => {
             try {
                 const d = JSON.parse(e.clipboardData!.getData("Text"));
                 if (!d.__hudLayout) return;
+                // Pasting the layout
                 setState((s) => ({
                     layout: merge_layout(s.layout, d.layout ),
                     settings: { ...s.settings, ...d.settings },
@@ -114,6 +117,7 @@ export function LayoutProvider({ children }: { children: ReactNode }) {
         return () => document.removeEventListener("paste", onPaste);
     }, []);
 
+    // the actual modification mechanism
     const patch_widget = useCallback(
         (id: string, fn: (w: WidgetLayout) => Partial<WidgetLayout>) =>
             setState((s) => ({
@@ -123,6 +127,7 @@ export function LayoutProvider({ children }: { children: ReactNode }) {
         [],
     );
 
+    // gives you a convenient API: "set_pos("speedometer", 300, 500);" Instead of having to write: "patchWidget("speedometer", {x: 300,y: 500});"
     const set_pos = useCallback((id: string, x: number, y: number) => patch_widget(id, () => ({ x, y })), [patch_widget]);
     const set_scale = useCallback((id: string, scale: number) => patch_widget(id, () => ({ scale })), [patch_widget]);
     const set_visible = useCallback((id: string, visible: boolean) => patch_widget(id, () => ({ visible })), [patch_widget]);

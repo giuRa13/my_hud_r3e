@@ -3,6 +3,7 @@ import PedalsWidget, {pedals_settings} from './PedalsWidget';
 import WheelWidget, {wheel_settings} from './WheelWidget';
 import DeltaWidget, {delta_settings} from './DeltaWidget';
 import SectorsWidget, { sectors_settings } from './SectorsWidget';
+import LapsWidget, {laps_settings} from './LapsWidget';
 import type { WidgetDef } from './types';
 
 export const widgets : Record<string, WidgetDef> = {
@@ -38,5 +39,12 @@ export const widgets : Record<string, WidgetDef> = {
         component: SectorsWidget,
         pos: { x: 40, y: 340 },
         settings: sectors_settings,
+    },
+    laps: {
+        label: 'Lap list',
+        component: LapsWidget,
+        pos: { x: 700, y: 40 },
+        padded: false,
+        settings: laps_settings,
     },
 };
