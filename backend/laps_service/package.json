@@ -1,0 +1,14 @@
+{
+  "name": "laps_service",
+  "version": "1.0.0",
+  "main": "laps_server.mjs",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node laps_server.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
